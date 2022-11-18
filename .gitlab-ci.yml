@@ -37,4 +37,4 @@ mobile-testing:
     - chmod +x ./gradlew
 
   script:
-    - ./gradlew clean mobileCucumberTests
+    - ./gradlew clean
