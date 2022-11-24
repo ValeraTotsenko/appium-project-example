@@ -22,6 +22,8 @@ mobile-testing:
   before_script:
     - java -version
     - chmod +x ./gradlew
+    - ./gradlew -version
 
   script:
     - ./gradlew clean
+    - ./gradlew mobileCucumberTests
