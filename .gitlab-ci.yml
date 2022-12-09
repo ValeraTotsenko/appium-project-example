@@ -9,6 +9,9 @@ image: gradle:jdk17-alpine
 
 variables:
   RUNNING_PLATFORM: epam_cloud
+  DEVICE_PLATFORM: android
+  MOBILE_DEVICE_CLOUD_PROJECT: $MOBILE_DEVICE_CLOUD_PROJECT
+  MOBILE_DEVICE_CLOUD_AUTH_KEY: $MOBILE_DEVICE_CLOUD_AUTH_KEY
 
 stages:
 - test
@@ -26,8 +29,21 @@ mobile-testing:
     - java -version
     - chmod +x ./gradlew
     - ./gradlew -version
-    - echo "$RUNNING_PLATFORM"
+    - echo "Automation tests will be executed on the -- $RUNNING_PLATFORM Mobile Cloud Farm"
+    - echo "Automation tests will be executed on the -- $DEVICE_PLATFORM OS"
+    - export running.platform=$RUNNING_PLATFORM
+    - export device.platform=$DEVICE_PLATFORM
+    - export mobitru.project.name=$MOBILE_DEVICE_CLOUD_PROJECT
+    - export mobitru.auth.key=$MOBILE_DEVICE_CLOUD_AUTH_KEY
 
   script:
     - ./gradlew clean
+    - echo $running.platform
+    - echo $device.platform
     - ./gradlew mobileCucumberTests
+
+  artifacts:
+    expire_in: 3 days
+    paths:
+      - build/reports/
+    when: always
