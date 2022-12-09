@@ -41,9 +41,3 @@ mobile-testing:
     - echo $running.platform
     - echo $device.platform
     - ./gradlew mobileCucumberTests
-
-  artifacts:
-    expire_in: 3 days
-    paths:
-      - build/reports/
-    when: always
