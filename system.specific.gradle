@@ -1,0 +1,5 @@
+tasks.register('libs', Sync) {
+    from configurations.compileClasspath
+    from configurations.testRuntimeClasspath
+    into "$buildDir/lib"
+}

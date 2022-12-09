@@ -17,7 +17,6 @@ import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
 
 public class AppiumLocalDriver {
 
-
     @Step("Create local Appium driver based on OS")
     public AppiumDriver createDriver() {
 
@@ -56,8 +55,8 @@ public class AppiumLocalDriver {
             options.setAppPackage(testConfig().getAppPackage());
             options.setAppActivity(testConfig().getAppActivity());
 
-            options.setPlatformVersion(testConfig().getPlatformVersion());
             options.setApp(getFile(testConfig().getAndroidAppPath()).getAbsolutePath());
+            options.setPlatformVersion(testConfig().getPlatformVersion());
             options.setNewCommandTimeout(Duration.ofSeconds(11));
             options.setFullReset(false);
 

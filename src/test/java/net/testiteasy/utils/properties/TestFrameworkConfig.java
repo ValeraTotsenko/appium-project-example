@@ -23,11 +23,11 @@ public interface TestFrameworkConfig extends Config {
     String androidAppPath();
 
     @Key("device.name")
-    @DefaultValue("pixel_3_v9")
+    //@DefaultValue("pixel_3_v9")
     String deviceName();
 
     @Key("device.platform")
-    @DefaultValue("android")
+    //@DefaultValue("android")
     String devicePlatform();
 
     @Key("platform.version")
@@ -38,7 +38,7 @@ public interface TestFrameworkConfig extends Config {
     String envType();
 
     @Key("running.platform")
-    @DefaultValue("local")
+    //@DefaultValue("local")
     String runningPlatform();
 
     @Key("app.package")

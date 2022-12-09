@@ -4,6 +4,8 @@ plugins {
 
 defaultTasks 'clean', 'test'
 
+apply from: "$rootDir/system.specific.gradle"
+
 // Project information
 def projectGroup = 'net.testiteasy'
 def projectVersion = '1.0-SNAPSHOT'
@@ -19,7 +21,6 @@ def cucumberVersion = '7.8.1'
 def logbackVersion = '1.4.4'
 def junitJupiterVersion = '5.9.0'
 def junitPlatformVersion = '1.9.0'
-
 
 group = "$projectGroup"
 version = "$projectVersion"
@@ -58,12 +59,6 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
 }
 
-task libs(type: Sync) {
-    from configurations.compileClasspath
-    from configurations.testRuntimeClasspath
-    into "$buildDir/lib"
-}
-
 testClasses.dependsOn libs
 
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'}
@@ -71,22 +66,60 @@ testClasses.dependsOn libs
 [compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_17
 [compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_17
 
-test {
-    useJUnitPlatform()
-    systemProperties = [
-            'file.encoding' : 'UTF-8',
-            'BUILD_URL' : System.getenv()['BUILD_URL']
+tasks.withType(Test).configureEach { testTask ->
+    testTask.useJUnitPlatform()
+    testTask.systemProperties = [
+            'file.encoding': 'UTF-8',
+            'BUILD_URL': System.getenv()['BUILD_URL']
     ]
-    testLogging.showStandardStreams = true
+    testTask.testLogging.showStandardStreams = true
+    testTask.outputs.upToDateWhen { false }
 }
 
-task mobileCucumberTests(type: Test) {
-    systemProperties = [
-            'device.platform' : System.getProperty("device.platform", "android"),
-            'device.name' : System.getProperty("device.name", "pixel_3_v9"),
-            'env.type' : System.getProperty("env.type", "qa"),
-            'running.platform' : System.getProperty("running.platform", "local")
-    ]
+tasks.register('mobileCucumberTests', Test) {
+    description = 'Runs all tests depending on the parameters that are passed as system properties'
+
+    systemProperties['running.platform'] = System.getProperty('running.platform', 'local')
+    systemProperties['device.platform'] = System.getProperty('device.platform', 'android')
+    systemProperties['device.name'] = System.getProperty('device.name', 'emulator-5554')
+
     include '**/*RunCucumberTest*'
-    useJUnitPlatform()
+}
+
+tasks.register('androidLocalMobileTests', Test) {
+    description = 'Runs all tests locally on the Emulator of Android OS'
+
+    systemProperties['running.platform'] = 'local'
+    systemProperties['device.platform'] = 'android'
+    systemProperties['device.name'] = 'emulator-5554'
+
+    include '**/*RunCucumberTest*'
+}
+
+tasks.register('iosLocalMobileTests', Test) {
+    description = 'Runs all tests locally on the Simulator of iOS'
+
+    systemProperties['running.platform'] = 'local'
+    systemProperties['device.platform'] = 'ios'
+    systemProperties['device.name'] = 'iPhone 8'
+
+    include '**/*RunCucumberTest*'
+}
+
+tasks.register('androidCloudMobileTests', Test) {
+    description = 'Runs all tests remotely in the Mobile Cloud Farm on an available Android device'
+
+    systemProperties['running.platform'] = 'epam_cloud'
+    systemProperties['device.platform'] = 'android'
+
+    include '**/*RunCucumberTest*'
+}
+
+tasks.register('iosCloudMobileTests', Test) {
+    description = 'Runs all tests remotely in the Mobile Cloud Farm on an available iOS device'
+
+    systemProperties['running.platform'] = 'epam_cloud'
+    systemProperties['device.platform'] = 'ios'
+
+    include '**/*RunCucumberTest*'
 }
