@@ -16,10 +16,10 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
 
 @SuppressWarnings("unused")
-public class MobileAppiumDriverFactory {
+public class SelenideMobileAppiumDriverProvider {
 
     @Step("Configure Selenide with Appium")
-    public void getWebDriverInstance() {
+    public void mobileDriverSetup() {
 
         Configuration.browserSize = null;
         Configuration.browser = AppiumDriverProvider.class.getName();
