@@ -4,9 +4,9 @@ import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
-        "classpath:app.properties",
         "system:properties",
-        "system:env"
+        "system:env",
+        "classpath:app.properties"
 })
 public interface TestFrameworkConfig extends Config {
 
