@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
 public class AppiumRemoteDriver {
 

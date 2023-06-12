@@ -1,5 +1,6 @@
-package net.testiteasy.utils.parameters;
+package net.testiteasy.utils.config;
 
+import net.testiteasy.drivers.AppiumLocalServer;
 import net.testiteasy.utils.properties.MobitruCloudConfig;
 import net.testiteasy.utils.properties.TestFrameworkConfig;
 import net.testiteasy.utils.variables.OSType;
@@ -10,11 +11,12 @@ import org.aeonbits.owner.ConfigFactory;
 import static org.apache.commons.lang3.StringUtils.upperCase;
 
 @SuppressWarnings("unused")
-public class TestDataParams {
+public class TestProjectConfig {
 
-    private static volatile TestDataParams instance;
+    private static volatile TestProjectConfig instance;
 
     private final String appiumBaseUrl;
+    private final String appiumConfigBaseUrl;
 
     private final String iOSAppPath;
     private final String androidAppPath;
@@ -24,6 +26,7 @@ public class TestDataParams {
     private final String deviceName;
     private final RunningPlatform runningPlatform;
     private final EnvironmentType envType;
+    private final String sysLanguage;
 
     private final String appPackage;
     private final String appActivity;
@@ -31,39 +34,58 @@ public class TestDataParams {
     private final String mobitruProjectName;
     private final String mobitruAuthorizationKey;
 
-    private TestDataParams() {
-        TestFrameworkConfig testConfig = ConfigFactory.create(TestFrameworkConfig.class);
+    private TestProjectConfig() {
+        TestFrameworkConfig testFrameworkConfig = ConfigFactory.create(TestFrameworkConfig.class);
         MobitruCloudConfig cloudConfig = ConfigFactory.create(MobitruCloudConfig.class);
 
-        appiumBaseUrl = testConfig.appiumServiceUrl();
+        runningPlatform = RunningPlatform.valueOf(upperCase(testFrameworkConfig.runningPlatform()));
 
-        iOSAppPath = testConfig.iOSAppPath();
-        androidAppPath = testConfig.androidAppPath();
+        appiumConfigBaseUrl = testFrameworkConfig.appiumServiceUrl();
+        appiumBaseUrl = initAppiumBaseUrl();
 
-        osType = OSType.valueOf(upperCase(testConfig.devicePlatform()));
-        platformVersion = testConfig.platformVersion();
-        deviceName = testConfig.deviceName();
-        runningPlatform = RunningPlatform.valueOf(upperCase(testConfig.runningPlatform()));
-        envType = EnvironmentType.valueOf(upperCase(testConfig.envType()));
+        iOSAppPath = testFrameworkConfig.iOSAppPath();
+        androidAppPath = testFrameworkConfig.androidAppPath();
 
-        appPackage = testConfig.appPackage();
-        appActivity = testConfig.appActivity();
+        osType = OSType.valueOf(upperCase(testFrameworkConfig.devicePlatform()));
+        platformVersion = testFrameworkConfig.platformVersion();
+        deviceName = testFrameworkConfig.deviceName();
+
+        envType = EnvironmentType.valueOf(upperCase(testFrameworkConfig.envType()));
+        sysLanguage = testFrameworkConfig.sysLanguage();
+
+        appPackage = testFrameworkConfig.appPackage();
+        appActivity = testFrameworkConfig.appActivity();
 
         mobitruProjectName = cloudConfig.mobitruProjectName();
         mobitruAuthorizationKey = cloudConfig.mobitruAuthKey();
     }
 
-    public static TestDataParams testConfig() {
-        TestDataParams result = instance;
-        if (result != null) {
-            return result;
+    public static TestProjectConfig testConfig() {
+        TestProjectConfig config = instance;
+        if (config != null) {
+            return config;
         }
-        synchronized (TestDataParams.class) {
+        synchronized (TestProjectConfig.class) {
             if (instance == null) {
-                instance = new TestDataParams();
+                instance = new TestProjectConfig();
             }
             return instance;
         }
+    }
+
+    public String getAppiumConfigBaseUrl() {
+        return appiumConfigBaseUrl;
+    }
+
+    private String initAppiumBaseUrl() {
+        String baseUrl = "";
+
+        switch (getRunningPlatform()) {
+            case LOCAL -> baseUrl = AppiumLocalServer.getServerUrl().toString();
+            case EPAM_CLOUD, SAUCELABS -> baseUrl = getAppiumConfigBaseUrl();
+        }
+
+        return baseUrl;
     }
 
     public String getAppiumBaseUrl() {
@@ -96,6 +118,10 @@ public class TestDataParams {
 
     public EnvironmentType getEnvType() {
         return envType;
+    }
+
+    public String getSysLanguage() {
+        return sysLanguage;
     }
 
     public String getAppPackage() {

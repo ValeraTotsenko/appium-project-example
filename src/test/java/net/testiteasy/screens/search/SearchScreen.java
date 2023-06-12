@@ -8,7 +8,7 @@ import net.testiteasy.utils.variables.OSType;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
 @SuppressWarnings("unused")
 // TODO -->

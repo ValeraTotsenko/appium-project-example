@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
 public class AppiumLocalDriver {
 
@@ -74,6 +74,7 @@ public class AppiumLocalDriver {
             options.setPlatformVersion(testConfig().getPlatformVersion());
             options.setNewCommandTimeout(Duration.ofSeconds(11));
             options.setFullReset(false);
+            options.setLanguage(testConfig().getSysLanguage());
 
             return options;
         }

@@ -20,6 +20,7 @@ public class BaseStepDefinitions {
         scenario.log("Starting Wikipedia Tests with " + scenario.getName());
         report.start();
 
+        driverProvider.appiumServerSetup();
         driverProvider.mobileDriverSetup();
     }
 

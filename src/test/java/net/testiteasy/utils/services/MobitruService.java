@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 import static org.apache.commons.lang3.StringUtils.lowerCase;
 
 public class MobitruService {

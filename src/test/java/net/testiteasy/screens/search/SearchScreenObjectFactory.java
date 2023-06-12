@@ -3,7 +3,7 @@ package net.testiteasy.screens.search;
 import net.testiteasy.utils.variables.OSType;
 
 import static com.codeborne.selenide.appium.ScreenObject.screen;
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
 public class SearchScreenObjectFactory {
 

@@ -12,15 +12,15 @@ def projectVersion = '1.0-SNAPSHOT'
 def projectDescription = 'Appium Wikipedia cross-platform simple test example'
 
 // Dependencies versions
-def jetbrainsAnnotationVersion = '23.0.0'
+def jetbrainsAnnotationVersion = '24.0.1'
 def aeonbitsVersion = '1.0.12'
-def restAssuredVersion = '5.2.0'
-def selenideAppiumVersion = '2.2.0'
-def appiumJavaVersion = '8.2.0'
-def cucumberVersion = '7.8.1'
-def logbackVersion = '1.4.4'
-def junitJupiterVersion = '5.9.0'
-def junitPlatformVersion = '1.9.0'
+def restAssuredVersion = '5.3.0'
+def selenideAppiumVersion = '2.8.1'
+def appiumJavaVersion = '8.5.1'
+def cucumberVersion = '7.12.1'
+def logbackVersion = '1.4.7'
+def junitJupiterVersion = '5.9.3'
+def junitPlatformVersion = '1.9.3'
 
 group = "$projectGroup"
 version = "$projectVersion"
@@ -31,6 +31,7 @@ repositories {
     mavenLocal()
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
+        url = uri('https://jitpack.io')
         mavenContent { snapshotsOnly() }
     }
 }
@@ -40,7 +41,9 @@ dependencies {
 
     implementation "org.aeonbits.owner:owner:$aeonbitsVersion"
 
-    testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+    testImplementation ("io.rest-assured:rest-assured:$restAssuredVersion") {
+        exclude group: 'commons-codec', module: 'commons-codec'
+    }
     testImplementation "io.rest-assured:rest-assured-all:$restAssuredVersion"
 
     testImplementation "com.codeborne:selenide-appium:$selenideAppiumVersion"

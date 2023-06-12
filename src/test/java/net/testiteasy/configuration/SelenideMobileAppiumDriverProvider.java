@@ -8,12 +8,13 @@ import net.testiteasy.drivers.AppiumLocalServer;
 import net.testiteasy.utils.variables.RunningPlatform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Optional;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
-import static net.testiteasy.utils.parameters.TestDataParams.testConfig;
+import static net.testiteasy.utils.config.LocalAppiumServerConfig.localAppiumServerConfig;
+import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
 @SuppressWarnings("unused")
 public class SelenideMobileAppiumDriverProvider {
@@ -24,13 +25,13 @@ public class SelenideMobileAppiumDriverProvider {
         Configuration.browserSize = null;
         Configuration.browser = AppiumDriverProvider.class.getName();
 
-        WebDriverRunner.addListener(new AbstractWebDriverEventListener() {
+        WebDriverRunner.addListener(new WebDriverListener() {
         });
     }
 
     @Step("Run Appium Server")
     public void appiumServerSetup() {
-        if (testConfig().getRunningPlatform().equals(RunningPlatform.LOCAL)) {
+        if (localAppiumServerConfig().getRunningPlatform().equals(RunningPlatform.LOCAL)) {
             AppiumLocalServer.startServer();
             if (AppiumLocalServer.getServerUrl() == null) {
                 throw new RuntimeException("""

@@ -11,7 +11,7 @@ import org.aeonbits.owner.Config;
 public interface TestFrameworkConfig extends Config {
 
     @Key("appium.service.url")
-    @DefaultValue("http://127.0.0.1:4723/wd/hub")
+    @DefaultValue("http://127.0.0.1:4723/")
     String appiumServiceUrl();
 
     @Key("ios.app.path")
@@ -36,6 +36,10 @@ public interface TestFrameworkConfig extends Config {
     @Key("env.type")
     @DefaultValue("qa")
     String envType();
+
+    @Key("sys.language")
+    @DefaultValue("en")
+    String sysLanguage();
 
     @Key("running.platform")
     //@DefaultValue("local")
