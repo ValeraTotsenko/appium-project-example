@@ -29,3 +29,4 @@ build
 
 # Project specific files
 app.properties
+mobitru.properties
