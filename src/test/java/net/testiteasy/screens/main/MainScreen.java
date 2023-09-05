@@ -25,11 +25,12 @@ public class MainScreen {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeSearchField[@name=\"Search Wikipedia\"]")
     private SelenideElement SEARCH_WIKIPEDIA_FIELD;
 
-    @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"Search Wikipedia\"]")
+    @AndroidFindBy(xpath = "//android.widget.FrameLayout[@content-desc=\"History\"]")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeImage[@name=\"tabbar-recent\"]")
     private SelenideElement HISTORY_ICON;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"Search Wikipedia\"]")
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Explore\"]")
     private SelenideElement SEARCH_WIKIPEDIA_ICON;
 
     public void waitForMainContainerToAppear() {
