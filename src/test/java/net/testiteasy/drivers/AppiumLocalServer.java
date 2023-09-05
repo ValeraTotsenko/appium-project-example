@@ -17,7 +17,7 @@ public class AppiumLocalServer {
     @Step("Start locally Appium server")
     public static void startServer() {
         final AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .usingAnyFreePort()
+                .usingPort(4723)
                 .withIPAddress("127.0.0.1")
                 .withArgument(LOG_LEVEL, "info:debug")
                 .withArgument(DEBUG_LOG_SPACING);

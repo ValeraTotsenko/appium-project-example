@@ -15,7 +15,7 @@ import static io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
 @SelectClasspathResource("net/testiteasy/features")
 @ConfigurationParameters({
         @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "net.testiteasy"),
-        @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@regression and @smoke")
+        @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@newTests")
 })
 @Description("Runner class with specified cucumber options")
 public class RunCucumberTest {

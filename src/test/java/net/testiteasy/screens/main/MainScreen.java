@@ -7,6 +7,8 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import net.testiteasy.utils.variables.OSType;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 import static net.testiteasy.utils.config.TestProjectConfig.testConfig;
 
@@ -22,6 +24,13 @@ public class MainScreen {
     @AndroidFindBy(xpath = "//*[contains(@text, 'Search…')]")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeSearchField[@name=\"Search Wikipedia\"]")
     private SelenideElement SEARCH_WIKIPEDIA_FIELD;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"Search Wikipedia\"]")
+    private SelenideElement HISTORY_ICON;
+
+    @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc=\"Search Wikipedia\"]")
+    @iOSXCUITFindBy(xpath = "")
+    private SelenideElement SEARCH_WIKIPEDIA_ICON;
 
     public void waitForMainContainerToAppear() {
         if (testConfig().getOSType() == OSType.IOS) {
@@ -39,4 +48,15 @@ public class MainScreen {
         SEARCH_WIKIPEDIA_FIELD.shouldBe(Condition.visible).click();
     }
 
+    public void checkHistoryIcon() {
+        HISTORY_ICON.shouldBe(Condition.visible);
+    }
+
+    public void clickHistoryIcon() {
+        HISTORY_ICON.click();
+    }
+
+    public void isSearchIconDisplayed() {
+        SEARCH_WIKIPEDIA_ICON.shouldBe(Condition.visible);
+    }
 }
